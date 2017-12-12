@@ -180,7 +180,7 @@ Here's a completely invertible implementation of the FFT "butterfly" algorithm t
 [img credit](https://en.wikipedia.org/wiki/Cooley%E2%80%93Tukey_FFT_algorithm)
 
 
-```
+```python
 def twiddle(x):
     # Define the twiddle factors matrix
     N = x.shape[-1] + 0.
