@@ -131,7 +131,7 @@ _Note_: in order to create an inverse, we need an actual Numpy array with the co
 
 ## Example applications
 
-See the Jupyter notebook file `AutoinvExamples.ipynb` to see working code for all of these examples.
+Visit the Jupyter notebook file `AutoinvExamples.ipynb` to see working code for all of these examples.
 
 ### HDR+ merge: inverting array reshaping
 
