@@ -35,7 +35,7 @@ Every use of the `np.ndarray` type is wrapped by a `Box` subclass, whose only ad
 
 After executing a block of Python code that uses AutoInv's wrapped version of Numpy, the `parents` list for each boxed Numpy array will trace out the complete execution DAG. 
 
-<img src="./imgs/fig1.svg" width="600">
+<img src="./imgs/fig1.svg" width="800">
 
 This is a simplified version of the function wrapper we apply to the Numpy library:
 
@@ -88,7 +88,7 @@ def trace(fun, x):
 
 After getting the function trace, we make a backwards pass over the stored DAG to create the inverse function (without necessarily calling it yet). We'd like to automatically replicate something like this:
 
-<img src="./imgs/fig2.svg" width="600">
+<img src="./imgs/fig2.svg" width="800">
 
 We do this by hand-writing an inverse generator for each primitive function in the Numpy library we'd like to be able to invert. These generators are stored in a dictionary `primitive_invs ` where the keys are function pointers. Thus the process to look up a function and generate its inverse when given a `node` works as follows:
 
@@ -283,8 +283,8 @@ def pix2pix(ppoint, f, rt0, rt1, pts):
         return lambda pts : w2p_1(p2w_0(pts))
     return ret_fn
 
-# This fn will project points+depths from camera 0 into camera 1
-# Its parameters are principal point, focal length, and two 6-DOF poses
+# p2p_01 will project points+depths from camera 0 into camera 1
+# pix2pix's parameters are principal point, focal length, and two 6-DOF poses
 p2p_01 = pix2pix(ppoint, f, rt0, rt1)
 ```
 
