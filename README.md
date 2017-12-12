@@ -131,6 +131,8 @@ _Note_: in order to create an inverse, we need an actual Numpy array with the co
 
 ## Example applications
 
+See the Jupyter notebook file `AutoinvExamples.ipynb` to see working code for all of these examples.
+
 ### HDR+ merge: inverting array reshaping
 
 The HDR+ algorithm jointly denoises a burst of `B` images. In order to provide robustness, it merges the images together one small tile at a time. These tiles overlap by 50% in each dimension, so every pixel is actually contained in 4 different merged tiles. A smooth windowing function is used to interpolate between the 4 tiles.
@@ -160,7 +162,7 @@ def hdrplus_tiled(noisy, c, sig, N):
             merged_patches = hdrplus_merge(patches, c, sig)      
             merged = depatchify(merged_patches) 
             
-            buffer += depatchify(merged)
+            buffer += merged
             
     return buffer
 ```
@@ -275,12 +277,12 @@ def pix2world(ppoint, f, rvec, tvec, depths):
         return cam2world(rvec, tvec)(reproj_fn(pix2cam(ppoint, f)(pts)))
     return fun
     
-def pix2pix(ppoint, f, rt0, rt1, pts):
-    def ret_fn(depths):
+def pix2pix(ppoint, f, rt0, rt1):
+    def ret_fn(pts, depths):
         p2w_0 = pix2world(ppoint, f, rt0[:,0], rt0[:,1], depths)
         p2w_1 = pix2world(ppoint, f, rt1[:,0], rt1[:,1], anp.zeros_like(depths))
         w2p_1 = core.make_inverse(p2w_1, pts)
-        return lambda pts : w2p_1(p2w_0(pts))
+        return w2p_1(p2w_0(pts))
     return ret_fn
 
 # p2p_01 will project points+depths from camera 0 into camera 1

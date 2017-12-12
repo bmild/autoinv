@@ -10,12 +10,12 @@ import numpy as _np
 
 def trace(fun, x):
     with trace_stack.new_trace() as t:
-        print 'New trace with value {}'.format(t)
+        # print 'New trace with value {}'.format(t)
         x.node = anp.Node(None, None, None, None, [], [])
     	x._trace = t
         end_box = fun(x)
         if isinstance(end_box, anp.Box) and end_box._trace == t:
-            print 'Trace successful'
+            # print 'Trace successful'
             return end_box
         else:
             warnings.warn("Output seems independent of input.")
@@ -93,11 +93,11 @@ def inv_concatenate_args(argnum):
         sizes = [anp.shape(a)[axis] for a in args[:argnum]]
         start = sum(sizes[:-1])
         idxs = [slice(None)] * ans.ndim
-        print 'Concatenate inv. Slicing from {} to {} on axis {}.'.format(start, sizes[-1], axis)
+        # print 'Concatenate inv. Slicing from {} to {} on axis {}.'.format(start, sizes[-1], axis)
         idxs[axis] = slice(start, start + sizes[-1])
         return lambda g: g[idxs]
     return inv
-definv_argnum(anp.concatenate_args, definv_argnum)
+definv_argnum(anp.concatenate_args, inv_concatenate_args)
 
 #############################
 
@@ -120,7 +120,7 @@ def backward_pass(y, end_node):
     for node in toposort(end_node):
         outgrad = outgrads.pop(node)
         # print 'Running inv for node {}'.format(node)
-        print 'Running inv for node {}, curr shape is {}'.format(node, outgrad.shape)
+        # print 'Running inv for node {}, curr shape is {}'.format(node, outgrad.shape)
         ingrads = nodeinv(node)(outgrad)
         # print 'New shape {}'.format(ingrads.shape)
         for parent in node.parents:
